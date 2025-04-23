@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Lócus de Controle - PEI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+    }
+    .question {
+      margin-bottom: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .question p {
+      margin: 0 0 10px;
+      font-weight: bold;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .result {
+      margin-top: 30px;
+      padding: 15px;
+      background: #e0f7fa;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Lócus de Controle e Gestão Escolar - PEI</h1>
+  <form id="quizForm">
+    <!-- Perguntas -->
+    <div id="questions"></div>
+    <button type="submit">Ver Resultado</button>
+  </form>
+  <div id="result" class="result" style="display:none;"></div>
+
+  <script>
+    const perguntas = [
+      "Quando um projeto na escola falha...",
+      "Se um professor não segue o combinado...",
+      "Quando os resultados da escola não são bons...",
+      "Se o clima escolar está ruim...",
+      "Quando um projeto é mal recebido pela equipe...",
+      "Se um aluno reincide em comportamento indisciplinado...",
+      "Quando há baixa participação dos professores...",
+      "Quando um resultado positivo acontece...",
+      "Quando o Dirigente exige algo novo...",
+      "Se o conselho de escola é pouco participativo...",
+      "Quando a adesão a um programa é baixa...",
+      "Quando um problema com um aluno se repete...",
+      "Quando falta professor na escola...",
+      "Quando um novo planejamento é exigido...",
+      "Diante dos resultados do SARESP ou SAEB..."
+    ];
+
+    const alternativas = [
+      "(A) Reavalio minha estratégia e liderança.",
+      "(B) Acredito que foi por falta de apoio dos professores.",
+      "(A) Procuro entender onde falhei na comunicação.",
+      "(B) Entendo que ele é resistente por natureza.",
+      "(A) Me sinto responsável por buscar soluções.",
+      "(B) Relaciono com o perfil dos alunos e da comunidade.",
+      "(A) Reflito sobre como posso influenciar positivamente.",
+      "(B) Acredito que é algo externo à gestão.",
+      "(A) Repenso o modo como o introduzi.",
+      "(B) Concluo que os professores não querem mudar.",
+      "(A) Analiso o que a escola pode oferecer de suporte.",
+      "(B) Acredito que é responsabilidade da família.",
+      "(A) Reflito se a proposta foi significativa.",
+      "(B) Entendo que não querem se comprometer.",
+      "(A) Acredito que foi fruto de nosso esforço coletivo.",
+      "(B) Vejo como sorte ou algo fora do comum.",
+      "(A) Encaro como oportunidade de crescimento.",
+      "(B) Penso que é mais uma cobrança injusta.",
+      "(A) Avalio como engajá-los de forma efetiva.",
+      "(B) Entendo que eles não têm interesse.",
+      "(A) Reviso nossa estratégia de comunicação interna.",
+      "(B) Concluo que os professores estão desmotivados.",
+      "(A) Busco formas diferentes de abordagem.",
+      "(B) Digo que ele é um caso perdido.",
+      "(A) Procuro reorganizar para garantir aula.",
+      "(B) Lamento que o sistema não funcione.",
+      "(A) Reorganizo a equipe para o desafio.",
+      "(B) Digo que não há condições reais de cumprir.",
+      "(A) Analiso criticamente e ajusto a rota.",
+      "(B) Penso que não representam nossa escola de verdade."
+    ];
+
+    const questionContainer = document.getElementById('questions');
+
+    for (let i = 0; i < perguntas.length; i++) {
+      const div = document.createElement('div');
+      div.className = 'question';
+      div.innerHTML = `
+        <p>${i+1}. ${perguntas[i]}</p>
+        <label><input type="radio" name="q${i}" value="A" required> ${alternativas[i*2]}</label><br>
+        <label><input type="radio" name="q${i}" value="B"> ${alternativas[i*2+1]}</label>
+      `;
+      questionContainer.appendChild(div);
+    }
+
+    document.getElementById('quizForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      let pontosB = 0;
+      for (let i = 0; i < perguntas.length; i++) {
+        const resposta = document.querySelector(`input[name="q${i}"]:checked`);
+        if (resposta && resposta.value === 'B') pontosB++;
+      }
+
+      let resultado = '';
+      if (pontosB <= 5) {
+        resultado = 'Lócus Interno';
+      } else if (pontosB <= 10) {
+        resultado = 'Tendência ao Lócus Externo';
+      } else {
+        resultado = 'Predominância de Lócus Externo';
+      }
+
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('result').innerHTML = `
+        <h2>Resultado: ${resultado}</h2>
+        <p>Você marcou ${pontosB} respostas "B".</p>
+        <p>Seu resultado indica a forma como você interpreta a responsabilidade sobre o que acontece em sua gestão.</p>
+        <p>Lembre-se: a cultura PEI exige protagonismo, autorresponsabilidade e mudança de mentalidade.</p>
+      `;
+    });
+  </script>
+</body>
+</html>
